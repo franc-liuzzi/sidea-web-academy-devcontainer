@@ -1,0 +1,20 @@
+{
+    "name": "sideagroup/web-academy-devcontainer",
+    "authors": [
+        {
+            "name": "Francesco Liuzzi",
+            "email": "francesco.liuzzi@sideagroup.com"
+        }
+    ],
+    "require-dev": {
+        "phlak/semver-cli": "^1.0"
+    },
+    "scripts": {
+        "get:version": "semver --adapter=composer get:version",
+        "increment:patch": "semver --adapter=composer increment:patch",
+        "increment:minor": "semver --adapter=composer increment:minor",
+        "increment:major": "semver --adapter=composer increment:major",
+        "increment:build": "semver --adapter=composer set:build $(date +%s)"
+    },
+    "version": "0.1.0"
+}

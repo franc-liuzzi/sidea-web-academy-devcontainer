@@ -1,0 +1,9 @@
+
+######### MYSQL CONNECTION PARAMS #########
+HOST: $MYSQL_HOST
+PORT: $MYSQL_PORT
+USER: $MYSQL_USER
+PASSWORD: $MYSQL_PWD
+
+PhpMyAdmin GUI URL: http://127.0.0.1:8888/
+###########################################

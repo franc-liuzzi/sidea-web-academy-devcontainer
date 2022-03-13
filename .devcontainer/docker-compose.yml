@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: sideagroup/web-academy-devcontainer:latest
+    volumes:
+      - ..:/workspace
+    network_mode: service:db
+
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+
+  pma:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_USER: mariadb
+      PMA_PASSWORD: mariadb
+    ports:
+      - 8888:80
+
+volumes:
+  mariadb-data:

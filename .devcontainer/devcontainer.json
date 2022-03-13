@@ -1,0 +1,28 @@
+{
+	"name": "Sidea Web Academy",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+	"remoteUser": "vscode",
+	
+	// Set *default* container specific settings.json values on container create.
+	"settings": { },
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"xdebug.php-debug",
+		"bmewburn.vscode-intelephense-client",
+		"mrmlnc.vscode-apache",
+		"ms-azuretools.vscode-docker",
+		"junstyle.php-cs-fixer",
+		"xdebug.php-pack",
+		"p1c2u.docker-compose",
+		"HookyQR.beautify",
+		"mikestead.dotenv"
+	],
+
+	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+	"forwardPorts": [8080, 3000],
+}
