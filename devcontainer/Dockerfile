@@ -7,8 +7,6 @@ ARG MYSQL_PORT=3306
 ARG MYSQL_USER=mariadb
 ARG MYSQL_PWD=mariadb
 
-VOLUME /var/run/docker.sock
-
 # Install MariaDB client
 RUN apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
@@ -27,19 +25,15 @@ RUN envsubst < /tmp/my.cnf.template >> /etc/mysql/my.cnf
 ARG NODE_VERSION="none"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
+RUN echo "\n" >> /home/vscode/.bashrc
+
 # [Optional] Uncomment this section to install laravel/installer
 RUN sudo -u vscode composer global require laravel/installer
-RUN echo export PATH=~/.composer/vendor/bin:\$PATH >> /home/vscode/.bash_profile
+RUN echo export PATH=~/.composer/vendor/bin:\$PATH >> /home/vscode/.bashrc
 
 COPY ./app/cli-banner /home/vscode/.cli-banner
 COPY ./app/cli-info.template /tmp
 RUN envsubst < /tmp/cli-info.template >> /home/vscode/.cli-banner
-RUN echo "\n" >> /home/vscode/.bashrc
 RUN echo cat \$HOME/.cli-banner >> /home/vscode/.bashrc
 
-USER vscode
-
-VOLUME /workspace
 WORKDIR /workspace
-
-CMD sleep infinity

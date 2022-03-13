@@ -29,5 +29,20 @@ release-minor: increment-minor build push
 release-major: increment-major build push
 
 test:
-	docker-compose up --build --force-recreate -d
-	docker-compose exec app bash
+	docker-compose \
+		-f .devcontainer/docker-compose.yml \
+		-f docker-compose.override.yml \
+		--project-directory . \
+		up --build --force-recreate -d
+	docker-compose \
+		-f .devcontainer/docker-compose.yml \
+		-f docker-compose.override.yml \
+		--project-directory . \
+		exec app bash
+
+test-down:
+	docker-compose \
+		-f .devcontainer/docker-compose.yml \
+		-f docker-compose.override.yml \
+		--project-directory . \
+		down --volumes --remove-orphans
