@@ -4,6 +4,7 @@ services:
   app:
     image: sideagroup/web-academy-devcontainer:latest
     volumes:
+      - ~/.aws/:/home/vscode/.aws/
       - ..:/workspace
     depends_on:
       - db

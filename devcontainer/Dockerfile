@@ -22,8 +22,12 @@ COPY ./app/my.cnf.template /tmp/
 RUN envsubst < /tmp/my.cnf.template >> /etc/mysql/my.cnf
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="none"
+ARG NODE_VERSION="lts/gallium"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+
+RUN umask 0002 \
+    && . /usr/local/share/nvm/nvm.sh \
+    && npm install -g @angular/cli serverless @nestjs/cli
 
 RUN echo "\n" >> /home/vscode/.bashrc
 
@@ -36,4 +40,14 @@ COPY ./app/cli-info.template /tmp
 RUN envsubst < /tmp/cli-info.template >> /home/vscode/.cli-banner
 RUN echo cat \$HOME/.cli-banner >> /home/vscode/.bashrc
 
+# install aws-cli
+RUN cd /tmp \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install
+
+# cleanup
+RUN rm -rf /tmp/*
+
 WORKDIR /workspace
+USER vscode
