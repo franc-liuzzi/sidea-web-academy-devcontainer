@@ -28,6 +28,10 @@ release-patch: increment-patch build push
 release-minor: increment-minor build push
 release-major: increment-major build push
 
+zip:
+	rm sidea-workspace.zip
+	zip -r sidea-workspace.zip .devcontainer/
+
 test:
 	docker-compose \
 		-f .devcontainer/docker-compose.yml \
