@@ -22,7 +22,8 @@ build:
 
 push:
 	docker tag "sideagroup/web-academy-devcontainer:$(shell composer get:version)" sideagroup/web-academy-devcontainer:latest
-	docker push -a sideagroup/web-academy-devcontainer
+	docker push "sideagroup/web-academy-devcontainer:$(shell composer get:version)"
+	docker push sideagroup/web-academy-devcontainer:latest
 
 release-patch: increment-patch build push release-zip
 release-minor: increment-minor build push release-zip
