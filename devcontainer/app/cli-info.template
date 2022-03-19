@@ -10,4 +10,6 @@ PhpMyAdmin GUI URL: http://localhost:8888/
 ############# EXERCISM SETUP ##############
 exercism c -w /workspace/exercism -t <auth-token from https://exercism.org/settings/api_cli>
 
-###########################################
+########## UPDATING DEVCONTAINER ##########
+devcontainer-update
+
