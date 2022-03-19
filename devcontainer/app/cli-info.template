@@ -8,6 +8,6 @@ PASSWORD: $MYSQL_PWD
 PhpMyAdmin GUI URL: http://localhost:8888/
 
 ############# EXERCISM SETUP ##############
-exercism configure -t <auth-token from https://exercism.org/settings/api_cli>
+exercism c -w /workspace/exercism -t <auth-token from https://exercism.org/settings/api_cli>
 
 ###########################################

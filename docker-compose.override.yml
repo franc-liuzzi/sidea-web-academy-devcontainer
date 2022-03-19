@@ -12,7 +12,8 @@ services:
         MYSQL_USER: root
         MYSQL_PWD: mariadb
     volumes:
-      - .:/workspace:cached
+      - ./workspace/:/workspace:cached
+      - ./.devcontainer:/workspace/.devcontainer
     entrypoint: ["/bin/sh", "-c", "echo Container started\n
 trap \"exit 0\" 15\n
 \n
