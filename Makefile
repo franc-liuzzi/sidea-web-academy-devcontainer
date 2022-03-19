@@ -33,7 +33,7 @@ release-zip:
 	rm sidea-workspace.zip
 	zip -r sidea-workspace.zip .devcontainer/
 	git add .
-	git commit -m release $(shell composer get:version)
+	git commit -m "release $(shell composer get:version)"
 	git push
 
 stack-up:
