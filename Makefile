@@ -18,6 +18,7 @@ build:
 		--build-arg MYSQL_HOST=db \
 		--build-arg MYSQL_USER=root \
 		--build-arg MYSQL_PWD=mariadb \
+		--build-arg SIDEA_DEVCONTAINER_VERSION=$(shell composer get:version) \
 		devcontainer
 
 push:

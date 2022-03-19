@@ -11,6 +11,7 @@ services:
         MYSQL_HOST: db
         MYSQL_USER: root
         MYSQL_PWD: mariadb
+        SIDEA_DEVCONTAINER_VERSION: development
     volumes:
       - ./workspace/:/workspace:cached
       - ./.devcontainer:/workspace/.devcontainer
