@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: sideagroup/web-academy-devcontainer:1.1.4
+    image: sideagroup/web-academy-devcontainer:1.1.6
     volumes:
       - ~/.aws/:/home/vscode/.aws/
       - ..:/workspace:cached

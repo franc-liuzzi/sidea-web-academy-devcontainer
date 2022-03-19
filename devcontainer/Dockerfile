@@ -2,14 +2,10 @@
 ARG PHP_VERSION=8-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/php:0-${PHP_VERSION}
 
-ARG SIDEA_DEVCONTAINER_VERSION
-
 ARG MYSQL_HOST=db
 ARG MYSQL_PORT=3306
 ARG MYSQL_USER=mariadb
 ARG MYSQL_PWD=mariadb
-
-ENV SIDEA_DEVCONTAINER_VERSION=${SIDEA_DEVCONTAINER_VERSION}
 
 # Install MariaDB client
 RUN apt-get update \
@@ -60,6 +56,9 @@ RUN wget --quiet https://github.com/exercism/cli/releases/download/v3.0.13/exerc
     && mkdir -p ~/.config/exercism \
     && mv shell/exercism_completion.bash ~/.config/exercism/exercism_completion.bash \
     && echo "if [ -f ~/.config/exercism/exercism_completion.bash ]; then source ~/.config/exercism/exercism_completion.bash; fi" >> ~/.bashrc
+
+ARG SIDEA_DEVCONTAINER_VERSION
+ENV SIDEA_DEVCONTAINER_VERSION=${SIDEA_DEVCONTAINER_VERSION}
 
 # setup sidea devcontainer info
 COPY ./app/sidea-devcontainer-info.template.sh /tmp
