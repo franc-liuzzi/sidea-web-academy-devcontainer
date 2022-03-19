@@ -62,13 +62,12 @@ RUN wget --quiet https://github.com/exercism/cli/releases/download/v3.0.13/exerc
     && echo "if [ -f ~/.config/exercism/exercism_completion.bash ]; then source ~/.config/exercism/exercism_completion.bash; fi" >> ~/.bashrc
 
 # setup sidea devcontainer info
-# COPY --chown=vscode:vscode ./app/cli-banner /home/vscode/.config/sideagroup/cli-banner
 COPY ./app/sidea-devcontainer-info.template.sh /tmp
 RUN envsubst < /tmp/sidea-devcontainer-info.template.sh >> ~/.local/bin/sidea-devcontainer-info \
     && chmod +x ~/.local/bin/sidea-devcontainer-info \
     && echo sidea-devcontainer-info >> ~/.bashrc
 
-COPY ./app/devcontainer-update.sh /home/vscode/.local/bin/devcontainer-update
+COPY --chown=vscode:vscode ./app/sidea-devcontainer-update.sh /home/vscode/.local/bin/sidea-devcontainer-update
 
 # cleanup
 RUN sudo rm -rf /tmp/*
