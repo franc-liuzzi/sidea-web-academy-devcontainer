@@ -24,21 +24,23 @@ push:
 	docker tag "sideagroup/web-academy-devcontainer:$(shell composer get:version)" sideagroup/web-academy-devcontainer:latest
 	docker push sideagroup/web-academy-devcontainer
 
-release-patch: increment-patch build push
-release-minor: increment-minor build push
-release-major: increment-major build push
+release-patch: increment-patch build push release-zip
+release-minor: increment-minor build push release-zip
+release-major: increment-major build push release-zip
 
 release-zip:
 	sed -i '' -e 's/sideagroup\/web-academy-devcontainer:.*/sideagroup\/web-academy-devcontainer:$(shell composer get:version)/g' .devcontainer/docker-compose.yml
 	rm sidea-workspace.zip
 	zip -r sidea-workspace.zip .devcontainer/
+	git add .
+	git commit -m release $(shell composer get:version)
 
 stack-up:
 	docker-compose \
 		-f .devcontainer/docker-compose.yml \
 		-f docker-compose.override.yml \
 		--project-directory . \
-		up --build --force-recreate -d
+		up --build --force-recreate -d app db
 
 test: stack-up
 	docker-compose \

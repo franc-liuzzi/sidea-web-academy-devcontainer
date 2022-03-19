@@ -58,10 +58,9 @@ RUN wget --quiet https://github.com/exercism/cli/releases/download/v3.0.13/exerc
     && echo "if [ -f ~/.config/exercism/exercism_completion.bash ]; then source ~/.config/exercism/exercism_completion.bash; fi" >> ~/.bashrc
 
 # setup sidea banner and container info
-COPY ./app/cli-banner ~/config/sideagroup/cli-banner
+COPY ./app/cli-banner ~/.config/sideagroup/cli-banner
 COPY ./app/cli-info.template /tmp
-RUN mkdir -p ~/.config/sideagroup \
-    && envsubst < /tmp/cli-info.template >> ~/.config/sideagroup/cli-banner \
+RUN envsubst < /tmp/cli-info.template >> ~/.config/sideagroup/cli-banner \
     && echo cat ~/.config/sideagroup/cli-banner >> ~/.bashrc
 
 # cleanup
