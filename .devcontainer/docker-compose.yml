@@ -2,10 +2,10 @@ version: "3.8"
 
 services:
   app:
-    image: sideagroup/web-academy-devcontainer:latest
+    image: sideagroup/web-academy-devcontainer:1.1.0
     volumes:
       - ~/.aws/:/home/vscode/.aws/
-      - ..:/workspace
+      - ..:/workspace:cached
     depends_on:
       - db
     network_mode: service:db

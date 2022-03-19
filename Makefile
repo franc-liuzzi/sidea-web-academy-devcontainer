@@ -28,23 +28,33 @@ release-patch: increment-patch build push
 release-minor: increment-minor build push
 release-major: increment-major build push
 
-zip:
+release-zip:
+	sed -i '' -e 's/sideagroup\/web-academy-devcontainer:.*/sideagroup\/web-academy-devcontainer:$(shell composer get:version)/g' .devcontainer/docker-compose.yml
 	rm sidea-workspace.zip
 	zip -r sidea-workspace.zip .devcontainer/
 
-test:
+stack-up:
 	docker-compose \
 		-f .devcontainer/docker-compose.yml \
 		-f docker-compose.override.yml \
 		--project-directory . \
 		up --build --force-recreate -d
+
+test: stack-up
 	docker-compose \
 		-f .devcontainer/docker-compose.yml \
 		-f docker-compose.override.yml \
 		--project-directory . \
 		exec app bash
 
-test-down:
+test-as-root: stack-up
+	docker-compose \
+		-f .devcontainer/docker-compose.yml \
+		-f docker-compose.override.yml \
+		--project-directory . \
+		exec -u root app bash
+
+stack-down:
 	docker-compose \
 		-f .devcontainer/docker-compose.yml \
 		-f docker-compose.override.yml \

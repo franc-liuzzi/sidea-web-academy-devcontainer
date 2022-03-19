@@ -29,25 +29,42 @@ RUN umask 0002 \
     && . /usr/local/share/nvm/nvm.sh \
     && npm install -g @angular/cli serverless @nestjs/cli
 
-RUN echo "\n" >> /home/vscode/.bashrc
-
-# [Optional] Uncomment this section to install laravel/installer
-RUN sudo -u vscode composer global require laravel/installer
-RUN echo export PATH=~/.composer/vendor/bin:\$PATH >> /home/vscode/.bashrc
-
-COPY ./app/cli-banner /home/vscode/.cli-banner
-COPY ./app/cli-info.template /tmp
-RUN envsubst < /tmp/cli-info.template >> /home/vscode/.cli-banner
-RUN echo cat \$HOME/.cli-banner >> /home/vscode/.bashrc
-
 # install aws-cli
-RUN cd /tmp \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && ./aws/install
 
+# fix xdebug.ini
+COPY ./app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+# set user
+USER vscode
+
+RUN echo "\n" >> ~/.bashrc
+RUN mkdir -p ~/.local/bin
+
+#  install laravel/installer
+RUN composer global require laravel/installer
+RUN echo export PATH=~/.composer/vendor/bin:\$PATH >> ~/.bashrc
+
+RUN cd /tmp
+
+# install exercism cli
+RUN wget --quiet https://github.com/exercism/cli/releases/download/v3.0.13/exercism-linux-64bit.tgz \
+    && tar xf exercism-linux-64bit.tgz \
+    && mv exercism ~/.local/bin \
+    && mkdir -p ~/.config/exercism \
+    && mv shell/exercism_completion.bash ~/.config/exercism/exercism_completion.bash \
+    && echo "if [ -f ~/.config/exercism/exercism_completion.bash ]; then source ~/.config/exercism/exercism_completion.bash; fi" >> ~/.bashrc
+
+# setup sidea banner and container info
+COPY ./app/cli-banner ~/config/sideagroup/cli-banner
+COPY ./app/cli-info.template /tmp
+RUN mkdir -p ~/.config/sideagroup \
+    && envsubst < /tmp/cli-info.template >> ~/.config/sideagroup/cli-banner \
+    && echo cat ~/.config/sideagroup/cli-banner >> ~/.bashrc
+
 # cleanup
-RUN rm -rf /tmp/*
+RUN sudo rm -rf /tmp/*
 
 WORKDIR /workspace
-USER vscode
