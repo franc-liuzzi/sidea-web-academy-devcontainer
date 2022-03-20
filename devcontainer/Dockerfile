@@ -18,7 +18,7 @@ RUN apt-get update \
 RUN docker-php-ext-install mysqli pdo pdo_mysql mbstring bcmath
 
 # Setup mysql default connection
-COPY ./app/my.cnf.template /tmp/
+COPY ./app/mysql/my.cnf.template /tmp/
 RUN envsubst < /tmp/my.cnf.template >> /etc/mysql/my.cnf
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
@@ -35,7 +35,7 @@ RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscl
     && ./aws/install
 
 # fix xdebug.ini
-COPY ./app/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY ./app/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # set user
 USER vscode
@@ -53,20 +53,23 @@ RUN cd /tmp
 RUN wget --quiet https://github.com/exercism/cli/releases/download/v3.0.13/exercism-linux-64bit.tgz \
     && tar xf exercism-linux-64bit.tgz \
     && mv exercism ~/.local/bin \
-    && mkdir -p ~/.config/exercism \
-    && mv shell/exercism_completion.bash ~/.config/exercism/exercism_completion.bash \
-    && echo "if [ -f ~/.config/exercism/exercism_completion.bash ]; then source ~/.config/exercism/exercism_completion.bash; fi" >> ~/.bashrc
+    && mkdir -p ~/.exercism ~/.config/exercism/ \
+    && mv shell/exercism_completion.bash ~/.exercism/exercism_completion.bash \
+    && echo "if [ -f ~/.exercism/exercism_completion.bash ]; then source ~/.exercism/exercism_completion.bash; fi" >> ~/.bashrc
+ADD --chown=vscode:vscode ./app/exercism/user.json /home/vscode/.config/exercism/
+# persisting exercism configuration
+VOLUME [ "/home/vscode/.config/exercism" ]
 
 ARG SIDEA_DEVCONTAINER_VERSION
 ENV SIDEA_DEVCONTAINER_VERSION=${SIDEA_DEVCONTAINER_VERSION}
 
 # setup sidea devcontainer info
-COPY ./app/sidea-devcontainer-info.template.sh /tmp
+COPY ./app/sidea-devcontainer/sidea-devcontainer-info.template.sh /tmp
 RUN envsubst < /tmp/sidea-devcontainer-info.template.sh >> ~/.local/bin/sidea-devcontainer-info \
     && chmod +x ~/.local/bin/sidea-devcontainer-info \
     && echo sidea-devcontainer-info >> ~/.bashrc
 
-COPY --chown=vscode:vscode ./app/sidea-devcontainer-update.sh /home/vscode/.local/bin/sidea-devcontainer-update
+COPY --chown=vscode:vscode ./app/sidea-devcontainer/sidea-devcontainer-update.sh /home/vscode/.local/bin/sidea-devcontainer-update
 
 # cleanup
 RUN sudo rm -rf /tmp/*

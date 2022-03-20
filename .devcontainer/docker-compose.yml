@@ -6,6 +6,7 @@ services:
     volumes:
       - ~/.aws/:/home/vscode/.aws/
       - ..:/workspace:cached
+      - exercism-data:/home/vscode/.config/exercism/
     depends_on:
       - db
     network_mode: service:db
@@ -34,3 +35,4 @@ services:
 
 volumes:
   mariadb-data:
+  exercism-data:
