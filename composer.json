@@ -16,5 +16,5 @@
         "increment:major": "semver --adapter=composer increment:major",
         "increment:build": "semver --adapter=composer set:build $(date +%s)"
     },
-    "version": "1.1.7"
+    "version": "1.1.8"
 }
