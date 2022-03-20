@@ -15,8 +15,9 @@ services:
     volumes:
       - ./workspace/:/workspace:cached
       - ./.devcontainer:/workspace/.devcontainer
+      - ./.vscode:/workspace/.vscode
     entrypoint: ["/bin/sh", "-c", "echo Container started\n
-trap \"exit 0\" 15\n
-\n
-exec \"$$@\"\n
-while sleep 1 & wait $$!; do :; done", "-", "docker-php-entrypoint"]
+      trap \"exit 0\" 15\n
+      \n
+      exec \"$$@\"\n
+      while sleep 1 & wait $$!; do :; done", "-", "docker-php-entrypoint"]
