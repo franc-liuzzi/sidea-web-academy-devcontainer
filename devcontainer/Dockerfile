@@ -27,7 +27,7 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 
 RUN umask 0002 \
     && . /usr/local/share/nvm/nvm.sh \
-    && npm install -g @angular/cli serverless @nestjs/cli
+    && npm install -g @angular/cli serverless @nestjs/cli ts-node typescript @babel/core @babel/node
 
 # install aws-cli
 RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
