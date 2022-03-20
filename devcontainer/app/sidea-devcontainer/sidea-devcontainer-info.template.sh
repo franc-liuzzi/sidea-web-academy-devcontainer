@@ -19,9 +19,9 @@ PASSWORD: $MYSQL_PWD
 PhpMyAdmin GUI URL: http://localhost:8888/
 
 ############# EXERCISM SETUP ##############
-exercism c -w /workspace/exercism -t <auth-token from https://exercism.org/settings/api_cli>
+exercism c -t <auth-token from https://exercism.org/settings/api_cli>
 
 ########## UPDATING DEVCONTAINER ##########
 1. run in terminal \`sidea-devcontainer-update\`
-2. in vscode \`Ctrl + shift + P\` and execute command \"Remote-Containers: Rebuild Container\"
+2. in vscode \`Ctrl + shift + P\` and execute command "Remote-Containers: Rebuild Container"
 EOF
