@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$(cat .devcontainer/sidea-devcontainer.version)" == \
+if [ "$(cat /workspace/.devcontainer/sidea-devcontainer.version)" == \
     "$(curl -s https://raw.githubusercontent.com/franc-liuzzi/sidea-web-academy-devcontainer/master/.devcontainer/sidea-devcontainer.version)" ]; then
     echo "You're already using the latest version";
     exit 0
