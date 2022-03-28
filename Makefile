@@ -13,11 +13,13 @@ increment-major:
 
 build:
 	docker build -t "sideagroup/web-academy-devcontainer:$(shell cat .devcontainer/sidea-devcontainer.version)" \
-		--build-arg VARIANT=8.1 \
+		--build-arg PHP_VERSION=8.1 \
 		--build-arg NODE_VERSION="lts/gallium" \
 		--build-arg MYSQL_HOST=db \
-		--build-arg MYSQL_USER=root \
+		--build-arg MYSQL_USER=mariadb \
 		--build-arg MYSQL_PWD=mariadb \
+		--build-arg MYSQL_DB_NAME=mariadb \
+		--build-arg MYSQL_ROOT_PWD=mariadb \
 		--build-arg SIDEA_DEVCONTAINER_VERSION=$(shell cat .devcontainer/sidea-devcontainer.version) \
 		devcontainer
 

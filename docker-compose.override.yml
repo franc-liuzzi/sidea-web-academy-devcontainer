@@ -6,11 +6,13 @@ services:
       context: ./devcontainer
       dockerfile: Dockerfile
       args:
-        VARIANT: "8.1"
+        PHP_VERSION: "8.1"
         NODE_VERSION: "lts/gallium"
         MYSQL_HOST: db
-        MYSQL_USER: root
+        MYSQL_USER: mariadb
         MYSQL_PWD: mariadb
+        MYSQL_DB_NAME: mariadb
+        MYSQL_ROOT_PWD: mariadb
         SIDEA_DEVCONTAINER_VERSION: development
     volumes:
       - ./workspace/:/workspace:cached

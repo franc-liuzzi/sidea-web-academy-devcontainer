@@ -1,11 +1,6 @@
 # [Choice] PHP version (use -bullseye variants on local arm64/Apple Silicon): 8, 8.1, 8.0, 7, 7.4, 7.3, 8-bullseye, 8.1-bullseye, 8.0-bullseye, 7-bullseye, 7.4-bullseye, 7.3-bullseye, 8-buster, 8.1-buster, 8.0-buster, 7-buster, 7.4-buster
-ARG PHP_VERSION=8-bullseye
+ARG PHP_VERSION=8.1
 FROM mcr.microsoft.com/vscode/devcontainers/php:0-${PHP_VERSION}
-
-ARG MYSQL_HOST=db
-ARG MYSQL_PORT=3306
-ARG MYSQL_USER=mariadb
-ARG MYSQL_PWD=mariadb
 
 # Install MariaDB client
 RUN apt-get update \
@@ -16,10 +11,6 @@ RUN apt-get update \
 
 # Install php-mysql driver
 RUN docker-php-ext-install mysqli pdo pdo_mysql mbstring bcmath
-
-# Setup mysql default connection
-COPY ./app/mysql/my.cnf.template /tmp/
-RUN envsubst < /tmp/my.cnf.template >> /etc/mysql/my.cnf
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="lts/gallium"
@@ -33,6 +24,17 @@ RUN umask 0002 \
 RUN curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && ./aws/install
+
+ARG MYSQL_HOST=db
+ARG MYSQL_PORT=3306
+ARG MYSQL_USER=mariadb
+ARG MYSQL_PWD=mariadb
+ARG MYSQL_ROOT_PWD=mariadb
+ARG MYSQL_DB_NAME=mariadb
+
+# Setup mysql default connection
+COPY ./app/mysql/my.cnf.template /tmp/
+RUN envsubst < /tmp/my.cnf.template >> /etc/mysql/my.cnf
 
 # fix xdebug.ini
 COPY ./app/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
@@ -60,10 +62,9 @@ ADD --chown=vscode:vscode ./app/exercism/user.json /home/vscode/.config/exercism
 # persisting exercism configuration
 VOLUME [ "/home/vscode/.config/exercism" ]
 
+# setup sidea devcontainer info
 ARG SIDEA_DEVCONTAINER_VERSION
 ENV SIDEA_DEVCONTAINER_VERSION=${SIDEA_DEVCONTAINER_VERSION}
-
-# setup sidea devcontainer info
 COPY ./app/sidea-devcontainer/sidea-devcontainer-info.template.sh /tmp
 RUN envsubst < /tmp/sidea-devcontainer-info.template.sh >> ~/.local/bin/sidea-devcontainer-info \
     && chmod +x ~/.local/bin/sidea-devcontainer-info \
